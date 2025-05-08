@@ -4,8 +4,6 @@ import random
 import string
 import time
 
-#hehe
-
 # if you see os.system func this checks the os of the user and cleares the terminal
 
 # put the data of the json file into data var
