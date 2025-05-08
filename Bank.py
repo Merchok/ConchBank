@@ -19,12 +19,17 @@ with open("Users.json", "r") as file:
     data = json.load(file)
 
 # reg menu 
-regMenu = "Welcome to Conch bank\n 1. Sign up\n 2. Sign in\n 3. Exit\n"
+regMenu = "1. Sign up\n2. Sign in\n3. Exit\n"
 homeMenu = "1. Make a transaction\n2. See past transactions\n3. Deposit\n4. Make Money\n "
+
+print("=" * 30)
+print("   Welcome to Conch Bank")
+print("=" * 30)
 
 # first welcome screan
 print(regMenu)
 welcomeChoice = input("> ")
+
 
 # home page of a user where he can pick what he wants to do with his balance and stuff
 def HomePage(name):
@@ -72,6 +77,8 @@ def reg():
         "password": hashed,
         "balance": 15
         }
+
+        data[name]["transac"] = []
 
         with open("Users.json", "w") as file:
             json.dump(data, file, indent=4)
