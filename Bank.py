@@ -12,7 +12,7 @@ with open("Users.json", "r") as file:
 
 # reg menu 
 regMenu = "Welcome to Conch bank\n 1. Sign up\n 2. Sign in\n 3. Exit\n"
-homeMenu = "1. Make a transaction\n2. See past transactions\n3. Deposit\n"
+homeMenu = "1. Make a transaction\n2. See past transactions\n3. Deposit\n4.Make Money\n "
 
 # first welcome screan
 print(regMenu)
@@ -29,6 +29,25 @@ def HomePage(name):
 
     print(homeMenu)
     HomeChoice = input("> ")
+
+    if HomeChoice == "1":
+        pass
+    elif HomeChoice == "2":
+        pass
+    elif HomeChoice == "3":
+        print("Please enter your check number: ")
+        checkNum = int(input("> "))
+
+        if checkNum == 1512:
+            data[name]["balance"] += 15
+
+            with open("Users.json", "w") as file:
+                json.dump(data, file, indent=4)
+            
+            print("Congrats!! Your check was successfully uploaded")
+
+    elif HomeChoice == "4":
+        pass
 
 
 # making regestration and adds to json users file
