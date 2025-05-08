@@ -3,6 +3,7 @@ import os
 import random
 import string
 import time
+import hashlib
 
 # if you see os.system func this checks the os of the user and cleares the terminal
 
@@ -12,7 +13,7 @@ with open("Users.json", "r") as file:
 
 # reg menu 
 regMenu = "Welcome to Conch bank\n 1. Sign up\n 2. Sign in\n 3. Exit\n"
-homeMenu = "1. Make a transaction\n2. See past transactions\n3. Deposit\n4.Make Money\n "
+homeMenu = "1. Make a transaction\n2. See past transactions\n3. Deposit\n4. Make Money\n "
 
 # first welcome screan
 print(regMenu)
@@ -55,10 +56,13 @@ def reg():
     name = input("What is your name: ")
     password = input("Enter you new password: ")
 
+    # encypts the password
+    hashed = hashlib.sha256(password.encode()).hexdigest()
+
     # if there is no such user it will make a new one and add to the data file
     if name not in data:
         data[name] = {
-        "password": password,
+        "password": hashed,
         "balance": 15
         }
 
@@ -70,8 +74,11 @@ def LogIn():
     name = input("What is your name: ")
     password = input("Enter your password: ")
 
+    # decrypts the password
+    password_hash = hashlib.sha256(password.encode()).hexdigest()
+
     # if there is a user with that name and password it will log the user in. (fuck the python syntax, fuck tay)
-    if name and data[name]["password"] == password:
+    if name and password_hash == data[name]["password"]:
         HomePage(name)
     else:
         print("username or password are inncorect!")
