@@ -4,6 +4,13 @@ import random
 import string
 import time
 import hashlib
+'''
+ _____             _      _           _   
+|     |___ ___ ___| |_   | |_ ___ ___| |_ 
+|   --| . |   |  _|   |  | . | .'|   | '_|
+|_____|___|_|_|___|_|_|  |___|__,|_|_|_,_|
+                                          
+'''
 
 # if you see os.system func this checks the os of the user and cleares the terminal
 
