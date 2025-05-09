@@ -1,7 +1,7 @@
 
 # 🐚 Conch Bank
 
-> Terminal-based toy bank system written in Python. Secure, simple, and just for fun 💸
+> Terminal-based toy bank system written in Python. Made in the process of learning to code :D
 
 ---
 
