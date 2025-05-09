@@ -64,7 +64,6 @@ def MkTransac(name):
             "amount": amount,
             "date": DateAndTime
         }
-
         data[name]["trans"].append(sendtransaction)
         data[Reciver]["trans"].append(Gettransaction)
 
