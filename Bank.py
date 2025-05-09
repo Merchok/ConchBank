@@ -4,6 +4,9 @@ import random
 import string
 import time
 import hashlib
+from datetime import datetime
+
+
 '''
  _____             _      _           _   
 |     |___ ___ ___| |_   | |_ ___ ___| |_ 
@@ -18,6 +21,8 @@ import hashlib
 with open("Users.json", "r") as file:
     data = json.load(file)
 
+now = datetime.now()
+
 # reg menu 
 regMenu = "1. Sign up\n2. Sign in\n3. Exit\n"
 homeMenu = "1. Make a transaction\n2. See past transactions\n3. Deposit\n4. Make Money\n "
@@ -30,6 +35,56 @@ print("=" * 30)
 print(regMenu)
 welcomeChoice = input("> ")
 
+
+# function that makes the transactions
+def MkTransac(name):
+    amount = int(input("How much to you want to transfer: "))
+    Reciver = input("Enter the name of the user you want to transfer to: ")
+
+    # gets the date of the transaction
+    DateAndTime = time.strftime("%Y-%m-%d %H:%M:%S")
+
+    # if there IS a user with that name make the transaction
+    if Reciver in data:
+        data[Reciver]["balance"] += amount
+        data[name]["balance"] -= amount
+
+        # send transaction info
+        sendtransaction = {
+            "to": Reciver,
+            "amount": amount,
+            "date": DateAndTime
+        }
+
+        # get transaction info
+        Gettransaction = {
+            "from": name,
+            "amount": amount,
+            "date": DateAndTime
+        }
+
+        data[name]["trans"].append(sendtransaction)
+        data[Reciver]["trans"].append(Gettransaction)
+
+        with open("Users.json", "w") as file:
+            json.dump(data, file, indent=4)
+        
+        print("Transaction successfuly completed!")
+        print(f"You have transfered {amount}$ to {Reciver}!")
+    else:
+        print("Sorry there is no such user :(")
+        
+    
+# lists the transactions
+def ListTrans(name):
+    # walking throught the transactions one by one
+    for t in data[name]["trans"]:
+
+        # checks if the transaction was recived or sended
+        if "to" in t:
+            print(f"Sent {t['amount']}$ to {t['to']} on {t['date']}")
+        elif "from" in t:
+            print(f"Received {t['amount']}$ from {t['from']} on {t['date']}")
 
 # home page of a user where he can pick what he wants to do with his balance and stuff
 def HomePage(name):
@@ -44,9 +99,9 @@ def HomePage(name):
     HomeChoice = input("> ")
 
     if HomeChoice == "1":
-        pass
+        MkTransac(name)
     elif HomeChoice == "2":
-        pass
+        ListTrans(name)
     elif HomeChoice == "3":
         print("Please enter your check number: ")
         checkNum = int(input("> "))
@@ -75,7 +130,8 @@ def reg():
     if name not in data:
         data[name] = {
         "password": hashed,
-        "balance": 15
+        "balance": 15,
+        "trans": []
         }
 
         data[name]["transac"] = []
