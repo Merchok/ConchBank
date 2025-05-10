@@ -6,7 +6,7 @@ import time
 import hashlib
 from datetime import datetime
 from game1 import start_game
-
+from stocks import start_stock
 
 '''
 
@@ -117,7 +117,15 @@ def HomePage(name):
             print("Congrats!! Your check was successfully uploaded")
 
     elif HomeChoice == "4":
-        start_game(name, data)
+        print("1. Guess the number game\n2. Stocks\n3. Exit")
+        choice = input("> ")
+
+        if choice == "1":
+            start_game(name, data)
+        elif choice == "2":
+            start_stock(name, data)
+        elif choice == "3":
+            pass
 
 
 # making regestration and adds to json users file
@@ -133,7 +141,8 @@ def reg():
         data[name] = {
         "password": hashed,
         "balance": 15,
-        "trans": []
+        "trans": [],
+        "stocks": []
         }
 
         data[name]["transac"] = []
@@ -162,6 +171,8 @@ if welcomeChoice == "1":
 elif welcomeChoice == "2":
     os.system('cls' if os.name == 'nt' else 'clear')
     LogIn()
+elif welcomeChoice == "3":
+    pass
 
 
 
