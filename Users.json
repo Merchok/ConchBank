@@ -23,7 +23,7 @@
     },
     "root": {
         "password": "ce5ca673d13b36118d54a7cf13aeb0ca012383bf771e713421b4d1fd841f539a",
-        "balance": 149878,
+        "balance": 149748.0,
         "trans": [
             {
                 "to": "ivan",
@@ -46,7 +46,9 @@
                 "date": "2025-05-10 19:49:23"
             }
         ],
-        "stocks": {}
+        "stocks": {
+            "APPLE": 1
+        }
     },
     "linux user": {
         "password": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",

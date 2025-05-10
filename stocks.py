@@ -2,6 +2,7 @@ import random
 import os
 import time
 import string
+import json
 
 
 
@@ -26,14 +27,30 @@ def start_stock(name, data):
 
 
         if user_1 == "apple":
-            data[name]["stocks"]["APPLE"] += user_2
-            pass
+            if "APPLE" not in data[name]["stocks"]:
+
+                data[name]["stocks"]["APPLE"] = 0
+
+            data[name]["stocks"]["APPLE"] += user_2                
+            data[name]["balance"] -= stocks["APPLE"]
+
+            with open("Users.json", "w") as file:
+                json.dump(data, file, indent=4)
+
+        elif user_1 == "tesla":
+            if "TESLA" not in data[name]["stocks"]:
+                data[name]["stocks"]["TESLA"] = 0
+            
+            data[name]["stocks"]["TESLA"] += user_2
+            data[name]["balance"] -= stocks["TESLA"]
+
+            with open("Users.json", "w") as file:
+                json.dump(data, file, indent=4)
             
 
     menu = "1. Buy\n2. Sell\n3.Exit"
 
 
-    price_change = random.uniform(-5, 5)
 
     while True:
         print("Stock market")
@@ -43,6 +60,7 @@ def start_stock(name, data):
         
         print(menu)
         
+        price_change = random.uniform(-5, 5)
 
         user_input = input("> ")
 
