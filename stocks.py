@@ -14,9 +14,9 @@ def start_stock(name, data):
     }
 
     def stockMenu():
-        print(f"APPLE: {stocks["APPLE"]}$")
-        print(f"TESLA: {stocks["TESLA"]}$")
-        print(f"CONCHBANK: {stocks["CONCHBANK"]}$\n")
+        print(f"APPLE: {stocks['APPLE']}$")
+        print(f"TESLA: {stocks['TESLA']}$")
+        print(f"CONCHBANK: {stocks['CONCHBANK']}$\n")
     
     def Buy():
         stockMenu()
@@ -36,9 +36,9 @@ def start_stock(name, data):
 
     while True:
         print("Stock market")
-        print(f"APPLE: {stocks["APPLE"]}$")
-        print(f"TESLA: {stocks["TESLA"]}$")
-        print(f"CONCHBANK: {stocks["CONCHBANK"]}$")
+        print(f"APPLE: {stocks['APPLE']}$")
+        print(f"TESLA: {stocks['TESLA']}$")
+        print(f"CONCHBANK: {stocks['CONCHBANK']}$")
         
         print(menu)
         
