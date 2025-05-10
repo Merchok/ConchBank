@@ -25,7 +25,7 @@ def start_stock(name, data):
         user_2 = input("How many do you want to buy: ")    
 
 
-        if user_choice == "apple":
+        if user_1 == "apple":
             pass
             
 
