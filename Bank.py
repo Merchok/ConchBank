@@ -5,6 +5,7 @@ import string
 import time
 import hashlib
 from datetime import datetime
+from game1 import start_game
 
 
 '''
@@ -116,7 +117,7 @@ def HomePage(name):
             print("Congrats!! Your check was successfully uploaded")
 
     elif HomeChoice == "4":
-        pass
+        start_game(name, data)
 
 
 # making regestration and adds to json users file
