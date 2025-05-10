@@ -155,7 +155,7 @@ def reg():
         "password": hashed,
         "balance": 15,
         "trans": [],
-        "stocks": ()
+        "stocks": {}
         }
 
         data[name]["transac"] = []
