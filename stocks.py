@@ -22,10 +22,11 @@ def start_stock(name, data):
         stockMenu()
 
         user_1 = input("What stock do you want to buy: ")
-        user_2 = input("How many do you want to buy: ")    
+        user_2 = int(input("How many do you want to buy: "))    
 
 
         if user_1 == "apple":
+            data[name]["stocks"]["APPLE"] += user_2
             pass
             
 
@@ -46,6 +47,6 @@ def start_stock(name, data):
         user_input = input("> ")
 
         if user_input == "1":
-            pass
+            Buy()
         elif user_input == "2":
             pass
