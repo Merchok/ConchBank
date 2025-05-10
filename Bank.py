@@ -90,42 +90,55 @@ def ListTrans(name):
 
 # home page of a user where he can pick what he wants to do with his balance and stuff
 def HomePage(name):
-    balance = data[name]["balance"]
+    exit = False
+    while not exit:
+        balance = data[name]["balance"]
 
-    os.system('cls' if os.name == 'nt' else 'clear')
+        os.system('cls' if os.name == 'nt' else 'clear')
 
-    print(f"Hey {name}! Welcome to your home page!")
-    print(f"you balance is {balance}$\n")
+        print(f"Hey {name}! Welcome to your home page!")
+        print(f"you balance is {balance}$\n")
 
-    print(homeMenu)
-    HomeChoice = input("> ")
+        print(homeMenu)
+        HomeChoice = input("> ")
 
-    if HomeChoice == "1":
-        MkTransac(name)
-    elif HomeChoice == "2":
-        ListTrans(name)
-    elif HomeChoice == "3":
-        print("Please enter your check number: ")
-        checkNum = int(input("> "))
+        if HomeChoice == "1":
+            MkTransac(name)
+            waitForEnter("Home page")
+        elif HomeChoice == "2":
+            ListTrans(name)
+            waitForEnter("Home page")
+        elif HomeChoice == "3":
+            print("Please enter your check number: ")
+            checkNum = int(input("> "))
 
-        if checkNum == 1512:
-            data[name]["balance"] += 15
+            if checkNum == 1512:
+                data[name]["balance"] += 15
 
-            with open("Users.json", "w") as file:
-                json.dump(data, file, indent=4)
+                with open("Users.json", "w") as file:
+                    json.dump(data, file, indent=4)
             
-            print("Congrats!! Your check was successfully uploaded")
+                print("Congrats!! Your check was successfully uploaded")
+            waitForEnter("Home page")
 
-    elif HomeChoice == "4":
-        print("1. Guess the number game\n2. Stocks\n3. Exit")
-        choice = input("> ")
+        elif HomeChoice == "4":
+            print("1. Guess the number game\n2. Stocks\n3. Exit")
+            choice = input("> ")
 
-        if choice == "1":
-            start_game(name, data)
-        elif choice == "2":
-            start_stock(name, data)
-        elif choice == "3":
-            pass
+            if choice == "1":
+                start_game(name, data)
+            elif choice == "2":
+                start_stock(name, data)
+            elif choice == "3":
+                pass
+            waitForEnter("Home page")
+        elif HomeChoice == "5":
+            print("Quitting")
+            exit = True
+
+# waits for user to press enter
+def waitForEnter(pageName):
+    input(f"\nPress enter to continue to {pageName}")
 
 
 # making regestration and adds to json users file
@@ -142,7 +155,7 @@ def reg():
         "password": hashed,
         "balance": 15,
         "trans": [],
-        "stocks": []
+        "stocks": ()
         }
 
         data[name]["transac"] = []
