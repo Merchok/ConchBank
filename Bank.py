@@ -18,6 +18,9 @@ from stocks import start_stock
                                           
 '''
 
+def clear():
+        os.system('cls' if os.name == 'nt' else 'clear')
+
 # if you see os.system func this checks the os of the user and cleares the terminal
 
 # put the data of the json file into data var
@@ -25,6 +28,8 @@ with open("Users.json", "r") as file:
     data = json.load(file)
 
 now = datetime.now()
+
+os.system('cls' if os.name == 'nt' else 'clear')
 
 # reg menu 
 regMenu = "1. Sign up\n2. Sign in\n3. Exit\n"
@@ -93,6 +98,7 @@ def HomePage(name):
     exit = False
     while not exit:
         balance = data[name]["balance"]
+        balance = round(balance, 2)
 
         os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -122,7 +128,8 @@ def HomePage(name):
             waitForEnter("Home page")
 
         elif HomeChoice == "4":
-            print("1. Guess the number game\n2. Stocks\n3. Exit")
+            clear()
+            print("1. Guess the number game\n2. Stocks\n3. Exit\n")
             choice = input("> ")
 
             if choice == "1":
@@ -155,7 +162,11 @@ def reg():
         "password": hashed,
         "balance": 15,
         "trans": [],
-        "stocks": {}
+        "stocks": {
+            "APPLE": 0,
+            "TESLA": 0,
+            "CONCHBANK": 0,
+        }
         }
 
         data[name]["transac"] = []
