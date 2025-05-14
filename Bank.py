@@ -174,7 +174,7 @@ def reg():
         with open("Users.json", "w") as file:
             json.dump(data, file, indent=4)
 
-# hehe
+# hehe haha
 # log in function thingy
 def LogIn():
     name = input("What is your name: ")
@@ -198,6 +198,7 @@ elif welcomeChoice == "2":
     LogIn()
 elif welcomeChoice == "3":
     pass
+
 
 
 
