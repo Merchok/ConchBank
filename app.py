@@ -132,5 +132,21 @@ def seeTransfer(username):
         
     return render_template("seeTransfer.html", username=username, transactions=transactions)
 
+@app.route("/deposit/<username>", methods=["GET", "POST"])
+def Deposit(username):
+    user = users.get(username)
+    if not user:
+        return "User with that name was not found"
+    if request.method == "POST":
+        DPcode = int(request.form["DPcode"])
+        if DPcode == 1512:
+            users[username]["balance"] += 100
+
+        with open("Users.json", "w") as f:
+            json.dump(users, f, indent=4)
+
+        return render_template("DPsucc.html", username=username)
+    return render_template("Deposit.html", username=username)
+
 if __name__ == "__main__":
     app.run(debug=True)
