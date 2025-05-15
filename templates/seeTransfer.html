@@ -1,0 +1,9 @@
+<h2>📤 See Transfers</h2>
+<h1>Hello, {{ username }}!</h1>
+<h3>Your Transfer history: </h3>
+    
+{% for t in transactions %}
+    <p>{{ t }}</p>
+{% endfor %}
+
+<a href="/home/{{ username }}">⬅ Back to Home</a>

@@ -4,9 +4,11 @@
   <title>Добро пожаловать</title>
 </head>
 <body>
-  <h1>Привет, {{ name }}!</h1>
-  <p>💰 Ваш баланс: {{ balance }}$</p>
+  <h1>Hello, {{ name }}!</h1>
+  <p>💰 Your balance: {{ balance }}$</p>
 
-  <a href="/">Выйти</a>
+  <a href="/transfer/{{ name }}">Make a Transaction</a>
+  <a href="/seetransfer/{{ name }}">See Transactions</a>
+  <a href="/">exit</a>
 </body>
 </html>

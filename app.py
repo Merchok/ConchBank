@@ -70,5 +70,67 @@ def signup():
     return render_template("signup.html")
 
 
+@app.route("/transfer/<username>", methods=["GET", "POST"])
+def transfer(username):
+    user = users.get(username)
+    if not user:
+        return "User not found"
+    
+    if request.method == "POST":
+        reciver = request.form["receiver"]
+        amount = int(request.form["amount"])
+        date = time.strftime("%Y-%m-%d %H:%M:%S")
+
+        if reciver not in users:
+            return f"User with the name {reciver} not found"
+        
+        if users[username]["balance"] < amount:
+            return "Not enough money"
+        
+                # send transaction info
+        sendtransaction = {
+            "to": reciver,
+            "amount": amount,
+            "date": date
+        }
+
+        # get transaction info
+        Gettransaction = {
+            "from": username,
+            "amount": amount,
+            "date": date
+        }
+
+        users[username]["balance"] -= amount
+        users[reciver]["balance"] += amount
+
+        users[username]["trans"].append(sendtransaction)
+        users[reciver]["trans"].append(Gettransaction)
+
+        with open("Users.json", "w") as f:
+            json.dump(users, f, indent=4)
+
+        return render_template("TransferSuc.html")
+    
+    return render_template("transfer.html", username=username)
+
+@app.route("/seetransfer/<username>", methods=["GET", "POST"])
+def seeTransfer(username):
+    user = users.get(username)
+    if not user:
+        return "User not found"
+    
+    transactions = []
+    
+    for t in users[username]["trans"]:
+
+        if "to" in t:
+            transactions.append(f"Sent {t['amount']}$ to {t['to']} on {t['date']}")
+        elif "from" in t:
+            transactions.append(f"Received {t['amount']}$ from {t['from']} on {t['date']}")
+        
+        
+    return render_template("seeTransfer.html", username=username, transactions=transactions)
+
 if __name__ == "__main__":
     app.run(debug=True)
