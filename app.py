@@ -148,5 +148,14 @@ def Deposit(username):
         return render_template("DPsucc.html", username=username)
     return render_template("Deposit.html", username=username)
 
+@app.route("/stocks/<username>", methods=["GET", "POST"])
+def Stocks(username):
+    user = users.get(username)
+    if not user:
+        return "User with that name was not found"
+
+    if request.method == "POST":
+        pass
+
 if __name__ == "__main__":
     app.run(debug=True)
