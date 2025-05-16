@@ -3,12 +3,16 @@ import json
 import hashlib
 from flask import Flask, render_template, request, redirect, url_for
 import time
+import random
 
 
 app = Flask(__name__)
 
 with open("Users.json", "r") as f:
     users = json.load(f)
+
+with open("Stocks.json", "r") as s:
+    stockss = json.load(s)
 
 @app.route("/")
 def index():
@@ -58,7 +62,11 @@ def signup():
             "password": password_hash,
             "balance": 15,
             "trans": [],
-            "stocks": {}
+            "stocks": {
+                "APPLE": 0,
+                "TESLA": 0,
+                "CONCHBANK": 0
+            }
         }
 
         with open("Users.json", "w") as f:
@@ -148,14 +156,106 @@ def Deposit(username):
         return render_template("DPsucc.html", username=username)
     return render_template("Deposit.html", username=username)
 
+last_update = 0
+
+# 
 @app.route("/stocks/<username>", methods=["GET", "POST"])
 def Stocks(username):
     user = users.get(username)
     if not user:
         return "User with that name was not found"
 
+    stocks = stockss
+    user_balance = users[username]["balance"]
+
+    # function to update stock prices 
+    def update_prices():
+        for key in stocks:
+            if stocks[key] >= 50:
+                price_change = random.uniform(-20, 20)
+                stocks[key] = max(0, stocks[key] + price_change)
+
+                with open("Stocks.json", "w") as s:
+                    json.dump(stockss, s, indent=4)
+            else:
+                stocks[key] += random.randint(38, 65)
+
+                with open("Stocks.json", "w") as s:
+                    json.dump(stockss, s, indent=4)
+
+    def  maybe_update_prices():
+        global last_update
+        now = time.time()
+        if now - last_update > 60:  # раз в минуту
+            update_prices()
+            last_update = now
+    
+    def Buy(stock_name, stock_amount):
+
+        totalPrice = stocks[stock_name] * stock_amount
+        if user_balance < totalPrice:
+            return "Sorry you not have enough money to be able to buy stocks!"
+        else:
+            if stock_name == "APPLE":
+                users[username]["balance"] -= stocks[stock_name] * stock_amount
+                users[username]["stocks"]["APPLE"] += stock_amount
+
+            elif stock_name =="TESLA":
+                users[username]["balance"] -= stocks[stock_name] * stock_amount
+                users[username]["stocks"]["TESLA"] += stock_amount
+            
+            elif stock_name == "CONCHBANK":
+                users[username]["balance"] -= stocks[stock_name] * stock_amount
+                users[username]["stocks"]["CONCHBANK"] += stock_amount
+            
+            with open("Users.json", "w") as f:
+                json.dump(users, f, indent=4)
+
+    def Sell(stock_name, stock_amount):
+        if stock_name == "APPLE" and users[username]["stocks"]["APPLE"] >= stock_amount:
+            users[username]["stocks"]["APPLE"] -= stock_amount
+            users[username]["balance"] += stocks["APPLE"] * stock_amount
+
+        elif stock_name == "TESLA" and users[username]["stocks"]["TESLA"] >= stock_amount:
+            users[username]["stocks"]["TESLA"] -= stock_amount
+            users[username]["balance"] += stocks["TESLA"] * stock_amount
+
+        elif stock_name == "CONCHBANK" and users[username]["stocks"]["CONCHBANK"] >= stock_amount:
+            users[username]["stocks"]["CONCHBANK"] -= stock_amount
+            users[username]["balance"] += stocks["CONCHBANK"] * stock_amount
+        else:
+            return "You don't have this stock"
+
+        
+        with open("Users.json", "w") as f:
+            json.dump(users, f, indent=4)
+
     if request.method == "POST":
-        pass
+        user = users.get(username)
+        stock_name = request.form['stock_name']
+        stock_amount = int(request.form['stock_amount'])
+        action = request.form['action']
+
+        if action == "buy":
+            result = Buy(stock_name, stock_amount)
+            if result:
+                return result
+
+        elif action == "sell":
+            result = Sell(stock_name, stock_amount)
+            if result:
+                return result
+
+        maybe_update_prices()
+        return redirect(url_for('Stocks', username=username))
+    
+    # Добавьте в самом конце функции Stocks():
+    return render_template("stocks.html", 
+                            username=username,
+                            stocks=stocks,
+                            user_stocks=users[username]["stocks"],
+                            balance=users[username]["balance"])    
+
 
 if __name__ == "__main__":
     app.run(debug=True)
