@@ -109,6 +109,7 @@
 .u-btn-submit:hover {
   background-color: #45a049;
   transform: translateY(-2px);
+  color: white !important;
 }
 
 .u-signup-actions {

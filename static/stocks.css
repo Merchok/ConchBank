@@ -100,6 +100,7 @@
 
 .u-section-1 .u-btn:hover {
   background-color: #3a6ea5;
+  color: white !important;
 }
 
 .u-section-1 .u-btn-back {
@@ -108,6 +109,7 @@
 
 .u-section-1 .u-btn-back:hover {
   background-color: #666666;
+  color: white !important;
 }
 
 .u-section-1 .u-btn-buy {
@@ -116,6 +118,7 @@
 
 .u-section-1 .u-btn-buy:hover {
   background-color: #3e8e41;
+  color: white !important;
 }
 
 .u-section-1 .u-btn-sell {
@@ -124,6 +127,7 @@
 
 .u-section-1 .u-btn-sell:hover {
   background-color: #d32f2f;
+  color: white !important;
 }
 
 @media (max-width: 991px) {

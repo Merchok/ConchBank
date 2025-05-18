@@ -106,6 +106,7 @@
 
 .u-section-1 .u-btn:hover {
   background-color: #3a6ea5;
+  color: white !important;
 }
 
 .u-section-1 .u-no-transactions {
