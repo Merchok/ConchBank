@@ -1,0 +1,158 @@
+.u-section-1 .u-sheet-1 {
+  min-height: 800px;
+}
+
+.u-section-1 .u-text-1 {
+  margin: 20px auto 0;
+  font-weight: 700;
+  font-size: 2.25rem;
+}
+
+.u-section-1 .u-text-2 {
+  margin: 10px 0 0 20px;
+  font-size: 1.25rem;
+}
+
+.u-section-1 .u-text-3 {
+  margin: 10px 0 0 20px;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.u-section-1 .u-container-layout-1 {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin: 20px 0;
+}
+
+.u-section-1 .u-heading-1 {
+  font-size: 1.5rem;
+  margin: 0 0 15px 0;
+  font-weight: 700;
+}
+
+.u-section-1 .u-table-1 {
+  width: 100%;
+  margin: 15px 0;
+}
+
+.u-section-1 .u-table-header-1 {
+  background-color: #478ac9;
+  color: white;
+  font-weight: 700;
+  padding: 10px;
+}
+
+.u-section-1 .u-table-cell {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.u-section-1 .u-table-alt-row {
+  background-color: #f2f2f2;
+}
+
+.u-section-1 .u-container-layout-2 {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin: 20px 0;
+}
+
+.u-section-1 .u-form-group {
+  margin-bottom: 15px;
+}
+
+.u-section-1 .u-form-label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.u-section-1 .u-radio-1 {
+  margin: 5px 0;
+}
+
+.u-section-1 .u-number-input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100px;
+}
+
+.u-section-1 .u-btn {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background-color: #478ac9;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-top: 15px;
+  transition: background-color 0.3s;
+}
+
+.u-section-1 .u-btn:hover {
+  background-color: #3a6ea5;
+}
+
+.u-section-1 .u-btn-back {
+  background-color: #808080;
+}
+
+.u-section-1 .u-btn-back:hover {
+  background-color: #666666;
+}
+
+.u-section-1 .u-btn-buy {
+  background-color: #4CAF50;
+}
+
+.u-section-1 .u-btn-buy:hover {
+  background-color: #3e8e41;
+}
+
+.u-section-1 .u-btn-sell {
+  background-color: #f44336;
+}
+
+.u-section-1 .u-btn-sell:hover {
+  background-color: #d32f2f;
+}
+
+@media (max-width: 991px) {
+  .u-section-1 .u-sheet-1 {
+    min-height: 950px;
+  }
+}
+
+@media (max-width: 767px) {
+  .u-section-1 .u-sheet-1 {
+    min-height: 1050px;
+  }
+  
+  .u-section-1 .u-table-1 {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 575px) {
+  .u-section-1 .u-sheet-1 {
+    min-height: 1150px;
+  }
+  
+  .u-section-1 .u-container-layout-1,
+  .u-section-1 .u-container-layout-2 {
+    padding: 15px;
+  }
+  
+  .u-section-1 .u-text-1 {
+    font-size: 1.8rem;
+  }
+}

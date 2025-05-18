@@ -1,92 +1,131 @@
 <!DOCTYPE html>
-<html>
+<html style="font-size: 16px;" lang="en">
 <head>
-    <title>Торговля акциями</title>
-    <style>
-        .stock-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .stock-table th, .stock-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        .stock-table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        .stock-form {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Stock Trading, {{ username }}">
+    <meta name="description" content="">
+    <title>Stock Trading</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='nicepage.css') }}" media="screen">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stocks.css') }}" media="screen">
+    <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='nicepage.js') }}" defer=""></script>
+    <meta name="generator" content="Nicepage 7.8.23, nicepage.com">
+    
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <script type="application/ld+json">{
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "name": "",
+        "logo": "images/conch-bank-high-resolution-logo-transparent.png"
+    }</script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="Stock Trading">
+    <meta property="og:type" content="website">
 </head>
-<body>
-    <h1>Торговля акциями</h1>
-    <p>Пользователь: {{ username }}</p>
-    <p>Баланс: ${{ balance|round(2) }}</p>
+<body class="u-body u-xl-mode" data-lang="en">
+    <header class="u-border-2 u-border-grey-75 u-border-no-left u-clearfix u-header u-header" id="header">
+        <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-sheet-1">
+            <a href="{{ url_for('home', username=username) }}" class="u-image u-logo u-image-1" data-image-width="2000" data-image-height="1027">
+                <img src="{{ url_for('static', filename='images/conch-bank-high-resolution-logo-transparent.png') }}" class="u-logo-image u-logo-image-1">
+            </a>
+        </div>
+    </header>
     
-    <h2>Ваш портфель акций:</h2>
-    <table class="stock-table">
-        <tr>
-            <th>Название</th>
-            <th>Количество</th>
-            <th>Текущая цена</th>
-            <th>Общая стоимость</th>
-        </tr>
-        {% for stock_name, amount in user_stocks.items() %}
-            {% if amount > 0 %}                <tr>
-                    <td>{{ stock_name }}</td>
-                    <td>{{ amount }}</td>
-                    <td>${{ stocks[stock_name]|round(2) }}</td>
-                    <td>${{ (stocks[stock_name] * amount)|round(2) }}</td>
-                </tr>
-            {% endif %}
-        {% else %}
-            <tr>
-                <td colspan="4">У вас пока нет акций</td>
-            </tr>
-        {% endfor %}
-    </table>
-    
-    <h2>Доступные акции:</h2>
-    <table class="stock-table">
-        <tr>
-            <th>Название</th>
-            <th>Текущая цена</th>
-        </tr>
-        {% for stock_name, price in stocks.items() %}            <tr>
-                <td>{{ stock_name }}</td>
-                <td>${{ price|round(2) }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-    
-    <div class="stock-form">
-        <h3>Купить или продать акции</h3>
-        <form method="post">
-            <div>
-                <p>Выберите акцию:</p>
-                {% for stock_name in stocks %}                <div>
-                    <input type="radio" id="{{ stock_name }}" name="stock_name" value="{{ stock_name }}" required>
-                    <label for="{{ stock_name }}">{{ stock_name }} (${{ stocks[stock_name]|round(2) }})</label>
-                </div>
-                {% endfor %}
+    <section class="u-clearfix u-section-1" id="sec-a4e3">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <h1 class="u-text u-text-default u-text-1">Stock Trading</h1>
+            <p class="u-text u-text-2">User: {{ username }}</p>
+            <p class="u-text u-text-3">Balance: ${{ balance|round(2) }}</p>
+            
+            <div class="u-container-layout u-container-layout-1">
+                <h2 class="u-heading-1">Your Portfolio</h2>
+                <table class="u-table-1">
+                    <thead>
+                        <tr>
+                            <th class="u-table-header-1">Name</th>
+                            <th class="u-table-header-1">Quantity</th>
+                            <th class="u-table-header-1">Current Price</th>
+                            <th class="u-table-header-1">Total Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set has_stocks = false %}
+                        {% for stock_name, amount in user_stocks.items() %}
+                            {% if amount > 0 %}
+                                {% set has_stocks = true %}
+                                <tr {% if loop.index is even %}class="u-table-alt-row"{% endif %}>
+                                    <td class="u-table-cell">{{ stock_name }}</td>
+                                    <td class="u-table-cell">{{ amount }}</td>
+                                    <td class="u-table-cell">${{ stocks[stock_name]|round(2) }}</td>
+                                    <td class="u-table-cell">${{ (stocks[stock_name] * amount)|round(2) }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        {% if not has_stocks %}
+                            <tr>
+                                <td class="u-table-cell" colspan="4" style="text-align: center;">You don't have any stocks yet</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
             </div>
             
-            <div style="margin-top: 10px;">
-                <label for="stock_amount">Количество:</label>
-                <input type="number" id="stock_amount" name="stock_amount" min="1" value="1" required>
+            <div class="u-container-layout u-container-layout-1">
+                <h2 class="u-heading-1">Available Stocks</h2>
+                <table class="u-table-1">
+                    <thead>
+                        <tr>
+                            <th class="u-table-header-1">Name</th>
+                            <th class="u-table-header-1">Current Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for stock_name, price in stocks.items() %}
+                            <tr {% if loop.index is even %}class="u-table-alt-row"{% endif %}>
+                                <td class="u-table-cell">{{ stock_name }}</td>
+                                <td class="u-table-cell">${{ price|round(2) }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
             
-            <div style="margin-top: 15px;">
-                <button type="submit" name="action" value="buy">Купить</button>
-                <button type="submit" name="action" value="sell">Продать</button>
-                <a href="{{ url_for('home', username=username) }}"><button type="button">Назад</button></a>
+            <div class="u-container-layout u-container-layout-2">
+                <h2 class="u-heading-1">Buy or Sell Stocks</h2>
+                <form method="post">
+                    <div class="u-form-group">
+                        <label class="u-form-label">Select Stock:</label>
+                        {% for stock_name in stocks %}
+                            <div class="u-radio-1">
+                                <input type="radio" id="{{ stock_name }}" name="stock_name" value="{{ stock_name }}" required>
+                                <label for="{{ stock_name }}">{{ stock_name }} (${{ stocks[stock_name]|round(2) }})</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="u-form-group">
+                        <label class="u-form-label" for="stock_amount">Quantity:</label>
+                        <input type="number" id="stock_amount" name="stock_amount" min="1" value="1" required class="u-number-input">
+                    </div>
+                    
+                    <div class="u-form-group">
+                        <button type="submit" name="action" value="buy" class="u-btn u-btn-buy">Buy</button>
+                        <button type="submit" name="action" value="sell" class="u-btn u-btn-sell">Sell</button>
+                        <a href="{{ url_for('home', username=username) }}"><button type="button" class="u-btn u-btn-back">Back to Home</button></a>
+                    </div>
+                </form>
             </div>
-        </form>
-    </div>
+        </div>
+    </section>
+    
+    <footer class="u-align-center u-clearfix u-container-align-center u-footer u-grey-80 u-footer" id="footer">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <p class="u-small-text u-text u-text-variant u-text-1">ConchBank Trading Platform</p>
+        </div>
+    </footer>
+    <section class="u-backlink u-clearfix u-grey-80">
+        <p class="u-small-text">Stock prices update every minute</p>
+    </section>
 </body>
 </html>
