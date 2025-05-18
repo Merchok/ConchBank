@@ -1,8 +1,89 @@
-<h2>📤 Make a Transfer</h2>
-<form method="post">
-  <input type="text" name="receiver" placeholder="Receiver's name"><br>
-  <input type="number" name="amount" placeholder="Amount"><br>
-  <button type="submit">Send</button>
-</form>
-
-<a href="{{ url_for('home', username=username) }}">⬅ Back to Home</a>
+<!DOCTYPE html>
+<html style="font-size: 16px;" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Make a Transfer, {{ username }}">
+    <meta name="description" content="">
+    <title>Make a Transfer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='nicepage.css') }}" media="screen">
+    <link rel="stylesheet" href="{{ url_for('static', filename='transfer.css') }}" media="screen">
+    <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='nicepage.js') }}" defer=""></script>
+    <meta name="generator" content="Nicepage 7.8.23, nicepage.com">
+    
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <script type="application/ld+json">{
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "name": "",
+        "logo": "images/conch-bank-high-resolution-logo-transparent.png"
+    }</script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="Make a Transfer">
+    <meta property="og:type" content="website">
+</head>
+<body class="u-body u-xl-mode" data-lang="en">
+    <header class="u-border-2 u-border-grey-75 u-border-no-left u-clearfix u-header u-header" id="header">
+        <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-sheet-1">
+            <a href="{{ url_for('home', username=username) }}" class="u-image u-logo u-image-1" data-image-width="2000" data-image-height="1027">
+                <img src="{{ url_for('static', filename='images/conch-bank-high-resolution-logo-transparent.png') }}" class="u-logo-image u-logo-image-1">
+            </a>
+        </div>
+    </header>
+    
+    <section class="u-clearfix u-section-1" id="sec-a4e3">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <h1 class="u-text u-text-default u-text-1">Make a Transfer</h1>
+            <p class="u-text u-text-2">Hello, {{ username }}!</p>
+            
+            <div class="u-transfer-container">
+                <div class="u-transfer-form-container">
+                    <div class="u-transfer-form-card">
+                        <h2 class="u-heading-1">📤 Send Money</h2>
+                        <form method="post" class="u-transfer-form">
+                            <div class="u-form-group">
+                                <label for="receiver">Recipient:</label>
+                                <input type="text" id="receiver" name="receiver" placeholder="Enter recipient's username" required>
+                            </div>
+                            
+                            <div class="u-form-group">
+                                <label for="amount">Amount ($):</label>
+                                <input type="number" id="amount" name="amount" placeholder="Enter amount to send" step="0.01" min="0.01" required>
+                            </div>
+                            
+                            <button type="submit" class="u-btn u-btn-submit">Send Money</button>
+                        </form>
+                        
+                        <div class="u-transfer-actions">
+                            <a href="{{ url_for('home', username=username) }}" class="u-btn u-btn-back">⬅ Back to Home</a>
+                            <a href="{{ url_for('seeTransfer', username=username) }}" class="u-btn u-btn-history">View Transaction History</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="u-transfer-info">
+                    <div class="u-info-card">
+                        <h3>Transfer Information</h3>
+                        <ul>
+                            <li>Transfers are processed instantly</li>
+                            <li>Make sure the recipient username is correct</li>
+                            <li>You can view all your past transactions in the history page</li>
+                            <li>There are no fees for transfers between ConchBank users</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="u-align-center u-clearfix u-container-align-center u-footer u-grey-80 u-footer" id="footer">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <p class="u-small-text u-text u-text-variant u-text-1">ConchBank Transfer Service</p>
+        </div>
+    </footer>
+    <section class="u-backlink u-clearfix u-grey-80">
+        <p class="u-small-text">Send money securely with ConchBank</p>
+    </section>
+</body>
+</html>
