@@ -1,6 +1,83 @@
-<form method="post">
-  <h1>Deposit</h1>
-  <input type="text" name="DPcode" placeholder="Deposit code"><br>
-  <button type="submit">Sign in</button>
-  <a href="{{ url_for('home', username=username) }}">⬅ Back to Home</a>
-</form>
+<!DOCTYPE html>
+<html style="font-size: 16px;" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Deposit Funds, {{ username }}">
+    <meta name="description" content="">
+    <title>Deposit Funds</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='nicepage.css') }}" media="screen">
+    <link rel="stylesheet" href="{{ url_for('static', filename='deposit.css') }}" media="screen">
+    <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='nicepage.js') }}" defer=""></script>
+    <meta name="generator" content="Nicepage 7.8.23, nicepage.com">
+    
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <script type="application/ld+json">{
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "name": "",
+        "logo": "images/conch-bank-high-resolution-logo-transparent.png"
+    }</script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="Deposit Funds">
+    <meta property="og:type" content="website">
+</head>
+<body class="u-body u-xl-mode" data-lang="en">
+    <header class="u-border-2 u-border-grey-75 u-border-no-left u-clearfix u-header u-header" id="header">
+        <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-sheet-1">
+            <a href="{{ url_for('home', username=username) }}" class="u-image u-logo u-image-1" data-image-width="2000" data-image-height="1027">
+                <img src="{{ url_for('static', filename='images/conch-bank-high-resolution-logo-transparent.png') }}" class="u-logo-image u-logo-image-1">
+            </a>
+        </div>
+    </header>
+    
+    <section class="u-clearfix u-section-1" id="sec-a4e3">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <h1 class="u-text u-text-default u-text-1">Deposit Funds</h1>
+            <p class="u-text u-text-2">Hello, {{ username }}!</p>
+            
+            <div class="u-deposit-container">
+                <div class="u-deposit-form-container">
+                    <div class="u-deposit-form-card">
+                        <h2 class="u-heading-1">💰 Add Money to Your Account</h2>
+                        <form method="post" class="u-deposit-form">
+                            <div class="u-form-group">
+                                <label for="DPcode">Deposit Code:</label>
+                                <input type="text" id="DPcode" name="DPcode" placeholder="Enter your deposit code" required>
+                            </div>
+                            
+                            <button type="submit" class="u-btn u-btn-submit">Deposit Funds</button>
+                        </form>
+                        
+                        <div class="u-deposit-actions">
+                            <a href="{{ url_for('home', username=username) }}" class="u-btn u-btn-back">⬅ Back to Home</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="u-deposit-info">
+                    <div class="u-info-card">
+                        <h3>Deposit Information</h3>
+                        <ul>
+                            <li>Enter your deposit code to add funds to your account</li>
+                            <li>Funds will be available immediately after deposit</li>
+                            <li>You can view your updated balance on your home page</li>
+                            <li>Contact support if you need help with your deposit but we wont answer</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="u-align-center u-clearfix u-container-align-center u-footer u-grey-80 u-footer" id="footer">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <p class="u-small-text u-text u-text-variant u-text-1">ConchBank Deposit Service</p>
+        </div>
+    </footer>
+    <section class="u-backlink u-clearfix u-grey-80">
+        <p class="u-small-text">Add funds securely with ConchBank</p>
+    </section>
+</body>
+</html>

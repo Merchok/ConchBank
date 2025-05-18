@@ -1,0 +1,207 @@
+.u-section-1 .u-sheet-1 {
+  min-height: 600px;
+}
+
+.u-section-1 .u-text-1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin: 30px auto 0;
+}
+
+.u-section-1 .u-text-2 {
+  font-size: 1.25rem;
+  margin: 10px auto 0;
+}
+
+.u-deposit-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 30px;
+  margin-bottom: 50px;
+  flex-wrap: wrap;
+}
+
+.u-deposit-form-container {
+  flex: 1;
+  min-width: 320px;
+  padding-right: 20px;
+}
+
+.u-deposit-form-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  margin-bottom: 30px;
+  border: 1px solid #e0e0e0;
+}
+
+.u-heading-1 {
+  font-size: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 25px;
+  color: #478ac9;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.u-deposit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.u-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.u-form-group label {
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.u-form-group input {
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.u-form-group input:focus {
+  border-color: #478ac9;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(71, 138, 201, 0.2);
+}
+
+.u-form-hint {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 5px 0 0 0;
+  font-style: italic;
+}
+
+.u-btn {
+  border: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 12px 20px;
+  font-weight: 600;
+  transition: background-color 0.3s, transform 0.1s;
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
+.u-btn-submit {
+  background-color: #4CAF50;
+  color: white;
+  width: 100%;
+  margin-top: 15px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.u-btn-submit:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+}
+
+.u-btn-back {
+  background-color: #f0f0f0;
+  color: #333;
+  margin-right: 10px;
+}
+
+.u-btn-back:hover {
+  background-color: #e3e3e3;
+}
+
+.u-deposit-actions {
+  display: flex;
+  margin-top: 25px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.u-deposit-info {
+  flex: 1;
+  min-width: 280px;
+}
+
+.u-info-card {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 25px;
+  border: 1px solid #e0e0e0;
+}
+
+.u-info-card h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 1.25rem;
+}
+
+.u-info-card ul {
+  padding-left: 20px;
+  margin-bottom: 0;
+}
+
+.u-info-card li {
+  margin-bottom: 12px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.u-info-card li:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 991px) {
+  .u-deposit-container {
+    flex-direction: column;
+  }
+  
+  .u-deposit-form-container {
+    padding-right: 0;
+  }
+  
+  .u-deposit-info {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .u-section-1 .u-text-1 {
+    font-size: 1.75rem;
+  }
+  
+  .u-deposit-form-card,
+  .u-info-card {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 575px) {
+  .u-section-1 .u-text-1 {
+    font-size: 1.5rem;
+  }
+  
+  .u-deposit-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .u-btn-back {
+    width: 100%;
+    text-align: center;
+  }
+}
