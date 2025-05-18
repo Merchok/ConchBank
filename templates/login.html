@@ -1,92 +1,80 @@
 <!DOCTYPE html>
 <html style="font-size: 16px;" lang="en">
-
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="">
+    <meta name="keywords" content="ConchBank Login">
     <meta name="description" content="">
     <title>Login</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='nicepage.css') }}" media="screen">
-    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}" media="screen">
-    <!-- JavaScript removed to prevent form submission conflicts -->
-    <meta name="generator" content="Nicepage 7.7.3, nicepage.com">
-    <meta name="referrer" content="origin">
-
-
-    <link id="u-theme-google-font" rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}" media="screen">
+    <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='nicepage.js') }}" defer=""></script>
+    <meta name="generator" content="Nicepage 7.8.23, nicepage.com">
+    
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
     <script type="application/ld+json">{
-		"@context": "http://schema.org",
-		"@type": "Organization",
-		"name": "",
-		"logo": "{{ url_for('static', filename='images/conch-bank-high-resolution-logo-transparent.png') }}"
-}</script>
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "name": "",
+        "logo": "{{ url_for('static', filename='images/conch-bank-high-resolution-logo-transparent.png') }}"
+    }</script>
     <meta name="theme-color" content="#478ac9">
     <meta property="og:title" content="Login">
     <meta property="og:type" content="website">
     <meta data-intl-tel-input-cdn-path="intlTelInput/">
 </head>
-
-<body data-home-page="Login.html" data-home-page-title="Login" data-path-to-root="./" data-include-products="false"
-    class="u-body u-xl-mode" data-lang="en">
-    <header class="u-border-2 u-border-grey-75 u-border-no-left u-border-no-top u-clearfix u-header u-header"
-        id="header">
+<body class="u-body u-xl-mode" data-lang="en">
+    <header class="u-border-2 u-border-grey-75 u-border-no-left u-clearfix u-header u-header" id="header">
         <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-sheet-1">
             <a href="#" class="u-image u-logo u-image-1" data-image-width="2000" data-image-height="1027">
-                <img src="{{ url_for('static', filename='images/conch-bank-high-resolution-logo-transparent.png') }}"
-                    class="u-logo-image u-logo-image-1">
+                <img src="{{ url_for('static', filename='images/conch-bank-high-resolution-logo-transparent.png') }}" class="u-logo-image u-logo-image-1">
             </a>
         </div>
     </header>
-    <section class="u-clearfix u-section-1" id="block-1">
-        <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-sheet-1">
-            <div class="u-form u-form-1">
-                <form method="POST" action="{{ url_for('login') }}" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form"
-                    style="padding: 10px;">
-                    <div class="u-form-group u-form-name">
-                        <label for="name-6931" class="u-label">Name</label>
-                        <input type="text" placeholder="Enter your Name" id="name-6931" name="name"
-                            class="u-input u-input-rectangle" required="">
+    
+    <section class="u-clearfix u-section-1" id="sec-a4e3">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <h1 class="u-text u-text-default u-text-1">Welcome to ConchBank</h1>
+            
+            <div class="u-login-container">
+                <div class="u-login-form-container">
+                    <div class="u-login-form-card">
+                        <h2 class="u-heading-1">🔐 Sign In to Your Account</h2>
+                        <form method="POST" action="{{ url_for('login') }}" class="u-login-form">
+                            <div class="u-form-group">
+                                <label for="name-6931">Username</label>
+                                <input type="text" placeholder="Enter your username" id="name-6931" name="name" class="u-input u-input-rectangle" required>
+                            </div>
+                            
+                            <div class="u-form-group">
+                                <label for="password-6931">Password</label>
+                                <input type="password" placeholder="Enter your password" id="password-6931" name="password" class="u-input u-input-rectangle" required>
+                            </div>
+                            
+                            <button type="submit" class="u-btn u-btn-submit">Sign In</button>
+                            
+                            {% if error %}
+                            <div class="u-error-message">{{ error }}</div>
+                            {% endif %}
+                        </form>
+                        
+                        <div class="u-login-actions">
+                            <a href="{{ url_for('signup') }}">Don't have an account? Sign up here</a>
+                        </div>
                     </div>
-                    <div class="u-form-group u-form-password">
-                        <label for="password-6931" class="u-label">Password</label>
-                        <input type="password" placeholder="Enter your password" id="password-6931" name="password"
-                            class="u-input u-input-rectangle" required="">
-                    </div>
-                    <div class="u-align-center u-form-group u-form-submit">
-                        <button type="submit" class="u-btn u-btn-submit u-button-style">Sign in</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </section>
-    <style class="u-overlap-style">
-        .u-overlap:not(.u-sticky-scroll) .u-header {
-            background-color: #478ac9 !important;
-            background-image: linear-gradient(#478ac9, #db545a) !important
-        }
-    </style>
-
-
-
+    
     <footer class="u-align-center u-clearfix u-container-align-center u-footer u-grey-80 u-footer" id="footer">
         <div class="u-clearfix u-sheet u-sheet-1">
-            <p class="u-small-text u-text u-text-variant u-text-1">i dont care</p>
+            <p class="u-small-text u-text u-text-variant u-text-1">ConchBank - Your Trusted Banking Partner</p>
         </div>
     </footer>
     <section class="u-backlink u-clearfix u-grey-80">
-        <p class="u-text"><span>This site was created with the </span>
-            <a class="u-link" href="https://nicepage.com/" target="_blank" rel="nofollow"><span>Nicepage</span>
-            </a>
-        </p>
+        <p class="u-small-text">Banking made simple and secure</p>
     </section>
-
-    {% if error %}
-      <p style="color:red;">{{ error }}</p>
-    {% endif %}
-
-
 </body>
-
 </html>
