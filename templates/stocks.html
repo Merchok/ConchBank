@@ -26,7 +26,7 @@
 <body>
     <h1>Торговля акциями</h1>
     <p>Пользователь: {{ username }}</p>
-    <p>Баланс: ${{ balance }}</p>
+    <p>Баланс: ${{ balance|round(2) }}</p>
     
     <h2>Ваш портфель акций:</h2>
     <table class="stock-table">
@@ -37,12 +37,11 @@
             <th>Общая стоимость</th>
         </tr>
         {% for stock_name, amount in user_stocks.items() %}
-            {% if amount > 0 %}
-                <tr>
+            {% if amount > 0 %}                <tr>
                     <td>{{ stock_name }}</td>
                     <td>{{ amount }}</td>
-                    <td>${{ stocks[stock_name] }}</td>
-                    <td>${{ stocks[stock_name] * amount }}</td>
+                    <td>${{ stocks[stock_name]|round(2) }}</td>
+                    <td>${{ (stocks[stock_name] * amount)|round(2) }}</td>
                 </tr>
             {% endif %}
         {% else %}
@@ -58,10 +57,9 @@
             <th>Название</th>
             <th>Текущая цена</th>
         </tr>
-        {% for stock_name, price in stocks.items() %}
-            <tr>
+        {% for stock_name, price in stocks.items() %}            <tr>
                 <td>{{ stock_name }}</td>
-                <td>${{ price }}</td>
+                <td>${{ price|round(2) }}</td>
             </tr>
         {% endfor %}
     </table>
@@ -71,10 +69,9 @@
         <form method="post">
             <div>
                 <p>Выберите акцию:</p>
-                {% for stock_name in stocks %}
-                <div>
+                {% for stock_name in stocks %}                <div>
                     <input type="radio" id="{{ stock_name }}" name="stock_name" value="{{ stock_name }}" required>
-                    <label for="{{ stock_name }}">{{ stock_name }} (${{ stocks[stock_name] }})</label>
+                    <label for="{{ stock_name }}">{{ stock_name }} (${{ stocks[stock_name]|round(2) }})</label>
                 </div>
                 {% endfor %}
             </div>
