@@ -37,7 +37,7 @@ def home(username):
     user = users.get(username)
     if user:
         balance = user["balance"]
-        return render_template("home.html", name=username, balance=round(balance, 2))
+        return render_template("home.html", username=username, balance=round(balance, 2))
     else:
         return "User not found."
     
@@ -99,7 +99,7 @@ def transfer(username):
         sendtransaction = {
             "to": reciver,
             "amount": amount,
-            "date": date
+            "date": date        
         }
 
         # get transaction info
@@ -111,14 +111,13 @@ def transfer(username):
 
         users[username]["balance"] -= amount
         users[reciver]["balance"] += amount
-
         users[username]["trans"].append(sendtransaction)
         users[reciver]["trans"].append(Gettransaction)
 
         with open("Users.json", "w") as f:
             json.dump(users, f, indent=4)
 
-        return render_template("TransferSuc.html")
+        return render_template("TransferSuc.html", username=username)
     
     return render_template("transfer.html", username=username)
 

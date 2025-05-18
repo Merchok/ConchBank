@@ -2,6 +2,6 @@
 <p>You are going to be redirect...</p>
 <script>
   setTimeout(function(){
-    window.location.href = "/home/{{ username }}";
-  }, 2000); // 2 секунды
+    window.location.href = "{{ url_for('home', username=username) }}";
+  }, 2000); // 2 seconds
 </script>

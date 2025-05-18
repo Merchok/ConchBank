@@ -6,4 +6,4 @@
     <p>{{ t }}</p>
 {% endfor %}
 
-<a href="/home/{{ username }}">⬅ Back to Home</a>
+<a href="{{ url_for('home', username=username) }}">⬅ Back to Home</a>
