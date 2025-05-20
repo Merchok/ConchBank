@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html style="font-size: 16px;" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Conch Combat, {{ username }}">
+    <meta name="description" content="">
+    <title>Conch Combat - Clicker Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='nicepage.css') }}" media="screen">
+    <link rel="stylesheet" href="{{ url_for('static', filename='clicker.css') }}" media="screen">
+    <link rel="stylesheet" href="{{ url_for('static', filename='button-fix.css') }}" media="screen">
+    <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='nicepage.js') }}" defer=""></script>
+    <meta name="generator" content="Nicepage 7.8.23, nicepage.com">
+    
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <script type="application/ld+json">{
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "name": "",
+        "logo": "images/conch-bank-high-resolution-logo-transparent.png"
+    }</script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="Conch Combat">
+    <meta property="og:type" content="website">
+</head>
+<body class="u-body u-xl-mode" data-lang="en">
+    <header class="u-border-2 u-border-grey-75 u-border-no-left u-clearfix u-header u-header" id="header">
+        <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-sheet-1">
+            <a href="{{ url_for('home', username=username) }}" class="u-image u-logo u-image-1" data-image-width="2000" data-image-height="1027">
+                <img src="{{ url_for('static', filename='images/conch-bank-high-resolution-logo-transparent.png') }}" class="u-logo-image u-logo-image-1">
+            </a>
+        </div>
+    </header>
+    
+    <section class="u-clearfix u-section-1" id="sec-a4e3">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <h1 class="u-text u-text-default u-text-1">Conch Combat</h1>
+            <p class="u-text u-text-2">Player: {{ username }}</p>
+            
+            <div class="u-clicker-container">
+                <div class="u-stats-card">
+                    <h2 class="u-heading-1">Your Stats</h2>
+                    <div class="u-stats-item">
+                        <p class="u-stats-label">Coins:</p>
+                        <p id="coinCounter" class="u-stats-value">0</p>
+                    </div>
+                    <div class="u-stats-item">
+                        <p class="u-stats-label">Click Power:</p>
+                        <p id="clickPower" class="u-stats-value">1</p>
+                    </div>
+                    <div class="u-upgrades">
+                        <h3 class="u-heading-2">Upgrades Coming Soon!</h3>
+                        <!-- Future upgrade buttons could go here -->
+                    </div>
+                </div>
+                
+                <div class="u-click-area">
+                    <div class="u-coin-container">
+                        <img id="coinImage" src="{{ url_for('static', filename='images/coin_image.png') }}" alt="Click the coin!">
+                    </div>
+                    <div class="u-click-instructions">
+                        <p>Click the coin as fast as you can to earn more coins!</p>
+                    </div>
+                </div>
+                
+                <div class="u-leaderboards-card">
+                    <h2 class="u-heading-1">Game Info</h2>
+                    <div class="u-game-info">
+                        <p>Conch Combat is ConchBank's official clicker game! Click the coin to earn more currency. Compete with other players and upgrade your clicking power!</p>
+                    </div>
+                    <div class="u-actions">
+                        <a href="{{ url_for('home', username=username) }}" class="u-btn u-btn-back">⬅ Back to Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="u-align-center u-clearfix u-container-align-center u-footer u-grey-80 u-footer" id="footer">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <p class="u-small-text u-text u-text-variant u-text-1">ConchBank - Your Trusted Banking Partner</p>
+        </div>
+    </footer>
+    <section class="u-backlink u-clearfix u-grey-80">
+        <p class="u-small-text">Click to win at Conch Combat!</p>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const coinImage = document.getElementById('coinImage');
+            const coinCounter = document.getElementById('coinCounter');
+            const clickPower = document.getElementById('clickPower');
+            const username = '{{ username }}';
+              // Load initial coins
+            fetch(`/get_coins/${username}`)
+                .then(response => response.json())
+                .then(data => {
+                    coinCounter.textContent = data.coins;
+                    clickPower.textContent = data.click_power;
+                })
+                .catch(error => console.error('Error loading coins:', error));
+            
+            // Set up click animation and logic
+            coinImage.addEventListener('click', function() {
+                // Add animation class
+                coinImage.classList.add('coin-click');
+                
+                // Remove the class after animation completes
+                setTimeout(() => {
+                    coinImage.classList.remove('coin-click');
+                }, 300);
+                
+                // Send click to server
+                fetch(`/click/${username}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })                .then(response => response.json())
+                .then(data => {
+                    coinCounter.textContent = data.coins;
+                    // We don't update click_power here since it would require another API endpoint to increment it
+                })
+                .catch(error => console.error('Error processing click:', error));
+            });
+        });
+    </script>
+</body>
+</html>

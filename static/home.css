@@ -130,6 +130,14 @@
   background-color: #fff3e0;
 }
 
+.u-btn-game {
+  border-left: 4px solid #9C27B0;
+}
+
+.u-btn-game:hover {
+  background-color: #f3e5f5;
+}
+
 .u-btn-logout {
   border-left: 4px solid #F44336;
 }

@@ -293,7 +293,10 @@ def get_coinds(username):
     if not user:
         return jsonify({"error": "user not found"})
     
-    return jsonify({"coins": user["clicker"]["coins"]})
+    return jsonify({
+        "coins": user["clicker"]["coins"],
+        "click_power": user["clicker"]["click_power"]
+    })
 
 
 if __name__ == "__main__":

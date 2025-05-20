@@ -1,0 +1,201 @@
+.u-section-1 .u-sheet-1 {
+  min-height: 700px;
+}
+
+.u-section-1 .u-text-1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin: 30px auto 0;
+}
+
+.u-section-1 .u-text-2 {
+  font-size: 1.25rem;
+  margin: 10px auto 0;
+}
+
+.u-clicker-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 30px 0;
+  gap: 20px;
+}
+
+.u-stats-card {
+  flex: 1;
+  min-width: 220px;
+  max-width: 320px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.u-heading-1 {
+  font-size: 1.5rem;
+  margin: 0 0 20px 0;
+  color: #333;
+  font-weight: 600;
+}
+
+.u-heading-2 {
+  font-size: 1.25rem;
+  margin: 20px 0 15px 0;
+  color: #333;
+  font-weight: 600;
+}
+
+.u-stats-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.u-stats-label {
+  font-size: 1rem;
+  color: #555;
+  margin: 0;
+}
+
+.u-stats-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #478ac9;
+  margin: 0;
+}
+
+.u-click-area {
+  flex: 2;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.u-coin-container {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+#coinImage {
+  width: 180px;
+  height: 180px;
+  transition: transform 0.1s ease-in-out;
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.2));
+}
+
+#coinImage:hover {
+  transform: scale(1.05);
+}
+
+.coin-click {
+  animation: coin-click-animation 0.3s ease-in-out;
+}
+
+@keyframes coin-click-animation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.u-click-instructions {
+  text-align: center;
+  color: #666;
+  max-width: 300px;
+  margin: 10px auto;
+}
+
+.u-leaderboards-card {
+  flex: 1;
+  min-width: 220px;
+  max-width: 320px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.u-game-info {
+  margin-bottom: 20px;
+  line-height: 1.5;
+  color: #555;
+}
+
+.u-actions {
+  margin-top: 30px;
+}
+
+.u-btn {
+  border: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 12px 20px;
+  font-weight: 600;
+  transition: background-color 0.3s, transform 0.1s;
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
+.u-btn-back {
+  background-color: #f0f0f0;
+  color: #333;
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+
+.u-btn-back:hover {
+  background-color: #e3e3e3;
+  color: #333 !important;
+}
+
+@media (max-width: 991px) {
+  .u-clicker-container {
+    justify-content: center;
+  }
+  
+  .u-click-area {
+    order: -1;
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 767px) {
+  .u-section-1 .u-text-1 {
+    font-size: 1.75rem;
+  }
+  
+  .u-click-area {
+    min-width: 100%;
+  }
+  
+  .u-stats-card, 
+  .u-leaderboards-card {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 575px) {
+  .u-section-1 .u-text-1 {
+    font-size: 1.5rem;
+  }
+}
