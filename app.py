@@ -298,6 +298,27 @@ def get_coinds(username):
         "click_power": user["clicker"]["click_power"]
     })
 
+@app.route("/upgrade/<username>", methods=["POST"])
+def upgrade(username):
+    user = users.get(username)
+
+    if not user:
+        return jsonify({"error": "User not found"})
+    
+    def buy_click_power_upgrade():
+        price = 2000
+
+        if user["clicker"]["coins"] >= price:
+
+            user["clicker"]["coins"] -= price
+            user["clicker"]["click_power"] += 1
+
+            with open("Users.json", "w") as f:
+                json.dump(users, f, indent=4)
+        else:
+            return jsonify({"error": "Not enough coins"})
+
+    
 
 if __name__ == "__main__":
     app.run(debug=True)

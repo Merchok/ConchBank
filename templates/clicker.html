@@ -48,10 +48,17 @@
                     <div class="u-stats-item">
                         <p class="u-stats-label">Click Power:</p>
                         <p id="clickPower" class="u-stats-value">1</p>
-                    </div>
-                    <div class="u-upgrades">
-                        <h3 class="u-heading-2">Upgrades Coming Soon!</h3>
-                        <!-- Future upgrade buttons could go here -->
+                    </div>                    <div class="u-upgrades">
+                        <h3 class="u-heading-2">Upgrades</h3>
+                        <div class="u-upgrade-item">
+                            <div class="u-upgrade-info">
+                                <p class="u-upgrade-title">Power Boost</p>
+                                <p class="u-upgrade-desc">Increase your click power by 1</p>
+                                <p class="u-upgrade-price">Cost: 2000 coins</p>
+                            </div>
+                            <button id="powerUpgrade" class="u-btn u-btn-upgrade">Upgrade</button>
+                        </div>
+                        <div id="upgradeMessage" class="u-upgrade-message"></div>
                     </div>
                 </div>
                 
@@ -84,22 +91,76 @@
     </footer>
     <section class="u-backlink u-clearfix u-grey-80">
         <p class="u-small-text">Click to win at Conch Combat!</p>
-    </section>
-
-    <script>
+    </section>    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const coinImage = document.getElementById('coinImage');
             const coinCounter = document.getElementById('coinCounter');
             const clickPower = document.getElementById('clickPower');
+            const powerUpgradeBtn = document.getElementById('powerUpgrade');
+            const upgradeMessage = document.getElementById('upgradeMessage');
             const username = '{{ username }}';
-              // Load initial coins
-            fetch(`/get_coins/${username}`)
+            
+            // Function to refresh game data
+            function refreshGameData() {
+                fetch(`/get_coins/${username}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        coinCounter.textContent = data.coins;
+                        clickPower.textContent = data.click_power;
+                        
+                        // Update upgrade button status
+                        if (parseInt(data.coins) >= 2000) {
+                            powerUpgradeBtn.classList.remove('u-btn-disabled');
+                            powerUpgradeBtn.disabled = false;
+                        } else {
+                            powerUpgradeBtn.classList.add('u-btn-disabled');
+                            powerUpgradeBtn.disabled = true;
+                        }
+                    })
+                    .catch(error => console.error('Error loading game data:', error));
+            }
+            
+            // Load initial game data
+            refreshGameData();
+            
+            // Set up upgrade button
+            powerUpgradeBtn.addEventListener('click', function() {
+                fetch(`/upgrade/${username}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ type: 'click_power' })
+                })
                 .then(response => response.json())
                 .then(data => {
-                    coinCounter.textContent = data.coins;
-                    clickPower.textContent = data.click_power;
+                    if (data.error) {
+                        upgradeMessage.textContent = data.error;
+                        upgradeMessage.classList.add('u-upgrade-error');
+                        setTimeout(() => {
+                            upgradeMessage.textContent = '';
+                            upgradeMessage.classList.remove('u-upgrade-error');
+                        }, 3000);
+                    } else {
+                        upgradeMessage.textContent = 'Upgrade successful!';
+                        upgradeMessage.classList.add('u-upgrade-success');
+                        setTimeout(() => {
+                            upgradeMessage.textContent = '';
+                            upgradeMessage.classList.remove('u-upgrade-success');
+                        }, 3000);
+                        refreshGameData();
+                    }
                 })
-                .catch(error => console.error('Error loading coins:', error));
+                .catch(error => {
+                    console.error('Error processing upgrade:', error);
+                    upgradeMessage.textContent = 'Upgrade failed. Try again.';
+                    upgradeMessage.classList.add('u-upgrade-error');
+                    setTimeout(() => {
+                        upgradeMessage.textContent = '';
+                        upgradeMessage.classList.remove('u-upgrade-error');
+                    }, 3000);
+                });
+            });
             
             // Set up click animation and logic
             coinImage.addEventListener('click', function() {
@@ -109,7 +170,7 @@
                 // Remove the class after animation completes
                 setTimeout(() => {
                     coinImage.classList.remove('coin-click');
-                }, 300);
+                }, 150);
                 
                 // Send click to server
                 fetch(`/click/${username}`, {
@@ -117,10 +178,15 @@
                     headers: {
                         'Content-Type': 'application/json'
                     }
-                })                .then(response => response.json())
+                })
+                .then(response => response.json())
                 .then(data => {
                     coinCounter.textContent = data.coins;
-                    // We don't update click_power here since it would require another API endpoint to increment it
+                    // Update upgrade button status
+                    if (parseInt(data.coins) >= 2000) {
+                        powerUpgradeBtn.classList.remove('u-btn-disabled');
+                        powerUpgradeBtn.disabled = false;
+                    }
                 })
                 .catch(error => console.error('Error processing click:', error));
             });

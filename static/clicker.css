@@ -23,8 +23,8 @@
 
 .u-stats-card {
   flex: 1;
-  min-width: 220px;
-  max-width: 320px;
+  min-width: 400px;
+  max-width: 900px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -53,6 +53,82 @@
   margin-bottom: 15px;
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;
+}
+
+.u-upgrade-item {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.u-upgrade-info {
+  flex: 1;
+}
+
+.u-upgrade-title {
+  font-weight: 600;
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.u-upgrade-desc {
+  font-size: 0.85rem;
+  margin: 0 0 5px 0;
+  color: #666;
+}
+
+.u-upgrade-price {
+  font-size: 0.9rem;
+  margin: 0;
+  color: #478ac9;
+  font-weight: 500;
+}
+
+.u-btn-upgrade {
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.u-btn-upgrade:hover {
+  background-color: #45a049;
+  color: white !important;
+}
+
+.u-btn-disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.u-btn-disabled:hover {
+  background-color: #cccccc;
+  transform: none;
+}
+
+.u-upgrade-message {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  text-align: center;
+  min-height: 20px;
+}
+
+.u-upgrade-success {
+  color: #4CAF50;
+  font-weight: 500;
+}
+
+.u-upgrade-error {
+  color: #F44336;
+  font-weight: 500;
 }
 
 .u-stats-label {
