@@ -43,6 +43,10 @@
             "APPLE": 0,
             "TESLA": 0,
             "CONCHBANK": 0
+        },
+        "clicker": {
+            "coins": 0,
+            "click_power": 1
         }
     },
     "root": {
@@ -94,6 +98,10 @@
             "APPLE": 0,
             "TESLA": 0,
             "CONCHBANK": 1
+        },
+        "clicker": {
+            "coins": 0,
+            "click_power": 1
         }
     },
     "user1": {
@@ -105,6 +113,10 @@
             "TESLA": 0,
             "CONCHBANK": 0
         },
-        "transac": []
+        "transac": [],
+        "clicker": {
+            "coins": 0,
+            "click_power": 1
+        }
     }
 }

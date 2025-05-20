@@ -1,7 +1,7 @@
 import flask
 import json
 import hashlib
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, jsonify, render_template, request, redirect, url_for
 import time
 import random
 
@@ -66,6 +66,10 @@ def signup():
                 "APPLE": 0,
                 "TESLA": 0,
                 "CONCHBANK": 0
+            },
+            "clicker": {
+            "coins": 0,
+            "click_power": 1
             }
         }
 
@@ -253,7 +257,43 @@ def Stocks(username):
                             username=username,
                             stocks=stocks,
                             user_stocks=users[username]["stocks"],
-                            balance=users[username]["balance"])    
+                            balance=users[username]["balance"])
+
+@app.route("/clicker/<username>")
+def clicker(username):
+    user = users.get(username)
+
+    if not user:
+        return "User not found"
+    
+    return render_template("clicker.html", username=username)
+
+@app.route("/click/<username>", methods=["POST"])
+def click(username):
+    user = users.get(username)
+
+    if not user:
+        return jsonify({"error": "user not found"})
+    
+    coins = user['clicker']['coins']
+
+    user["clicker"]["coins"] += user["clicker"]["click_power"] # adds coins on click with the power the user have
+
+    with open("Users.json", "w") as f:
+        json.dump(users, f, indent=4)
+
+    return jsonify({"coins": user["clicker"]["coins"]})
+
+
+
+@app.route("/get_coins/<username>", methods=["GET"])
+def get_coinds(username):
+    user = users.get(username)
+
+    if not user:
+        return jsonify({"error": "user not found"})
+    
+    return jsonify({"coins": user["clicker"]["coins"]})
 
 
 if __name__ == "__main__":
