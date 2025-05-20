@@ -37,11 +37,10 @@
             <h1 class="u-text u-text-default u-text-1">Transaction History</h1>
             <p class="u-text u-text-2">Hello, {{ username }}!</p>
             
-            <div class="u-container-layout u-container-layout-1">
-                <h2 class="u-heading-1">Your Transfer History</h2>
+            <div class="u-container-layout u-container-layout-1">                <h2 class="u-heading-1">Your Transfer History</h2>
                   {% if transactions %}
                     <ul class="u-transaction-list">
-                        {% for t in transactions|reverse %}
+                        {% for t in transactions %}
                             {% if "Sent" in t %}
                                 <li class="u-transaction-item sent">
                                     {% set parts = t.split('$') %}
