@@ -267,13 +267,13 @@ def upgrade(username):
     clicker_data = database.get_clicker_data(username)
     
     # Стоимость улучшения
-    price = 2000
+    priceS = 2000
     
-    if clicker_data["coins"] >= price:
+    if clicker_data["coins"] >= priceS:
         # Обновляем данные кликера
         database.update_clicker_data(
             username,
-            clicker_data["coins"] - price,
+            clicker_data["coins"] - priceS,
             clicker_data["click_power"] + 1
         )
         
@@ -288,7 +288,74 @@ def upgrade(username):
     else:
         return jsonify({"error": "Not enough coins"})
 
+@app.route("/buy_coin_event/<username>", methods=["POST"])
+def buy_coin_event(username):
+    user = database.get_user(username)
+
+    if not user:
+        return jsonify({"error": "User dont found"})
+
+    clicker_data = database.get_clicker_data(username)
+
+    price = 500
+
+    if clicker_data["coins"] >= price:
+        database.update_clicker_data(
+            username,
+            clicker_data["coins"] - price,
+            clicker_data["click_power"]
+        )
+
+        success = database.set_lucky_coin_upgrade(username)
+
+        if success:
+            return jsonify({
+                "success": True,
+                "message": "Lucky Coin Upgrade Purchased!",
+                "coins": clicker_data["coins"] - price
+            })
+        else:
+            return jsonify({"error": "not enough money"})
+        
+    else:
+        return jsonify({"error": "not enough money"})
     
+@app.route("/lucky_coin/<username>", methods=["GET", "POST"])
+def lucky_coin(username):
+    user = database.get_user(username)
+    clicker_data = database.get_clicker_data(username)
+
+    lucky_coin_bonus = 500
+    
+    if not user:
+        return jsonify({"error": "User not found"})
+    
+    if database.has_lucky_coin_upgrade(username):
+        last_time = database.get_lucky_coin_last_time(username)
+        now = int(time.time())
+        
+        # For GET requests, just check if the coin is available
+        if request.method == "GET":
+            if now - last_time >= 60:
+                return jsonify({"available": True})
+            else:
+                return jsonify({"error": "too early"})
+        
+        # For POST requests, claim the coin
+        elif request.method == "POST":
+            if now - last_time >= 60:
+                database.update_clicker_data(username, clicker_data["coins"] + lucky_coin_bonus, clicker_data["click_power"])
+                database.Lucky_coin_time(username, now)
+
+                return jsonify({
+                    "success": True,
+                    "message": "You got a lucky coin!",
+                    "coins": clicker_data["coins"] + lucky_coin_bonus
+                })
+            else:
+                return jsonify({"error": "too early"})
+    else:
+        return jsonify({"error": "There is no upgrade"})
 
 if __name__ == "__main__":
     app.run(debug=True)

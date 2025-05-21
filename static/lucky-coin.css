@@ -1,0 +1,114 @@
+.lucky-coin {
+    position: fixed;
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    z-index: 1000;
+    filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.3));
+    display: none;
+    animation: lucky-coin-fall 5s cubic-bezier(0.5, 0, 0.75, 1) forwards, lucky-coin-rotation 2s infinite linear;
+    top: -80px;
+}
+
+.lucky-coin.active {
+    display: block;
+    /* Add a sparkle/glow effect to make it more noticeable */
+    filter: drop-shadow(0 0 15px gold) brightness(1.2);
+}
+
+@keyframes lucky-coin-fall {
+    0% {
+        top: -80px;
+        left: calc(var(--start-x) - 10px);
+    }
+    10% {
+        top: calc(var(--viewport-start) + 5vh);
+        left: calc(var(--start-x) + 10px);
+    }
+    30% {
+        top: calc(var(--viewport-start) + 25vh);
+        left: calc(var(--start-x) - 15px);
+    }
+    50% {
+        top: calc(var(--viewport-start) + 50vh);
+        left: calc(var(--start-x) + 15px);
+    }
+    70% {
+        top: calc(var(--viewport-start) + 70vh);
+        left: calc(var(--start-x) - 10px);
+    }
+    90% {
+        top: calc(var(--viewport-start) + 90vh);
+        left: calc(var(--start-x) + 5px);
+    }
+    100% {
+        top: calc(var(--viewport-start) + 95vh);
+        left: var(--start-x);
+    }
+}
+
+@keyframes lucky-coin-rotation {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(180deg) scale(1.1);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+.lucky-coin-click {
+    animation: lucky-coin-click-animation 0.5s ease-in-out forwards !important;
+}
+
+@keyframes lucky-coin-click-animation {
+    0% {
+        transform: scale(1) rotate(0deg);
+    }
+    50% {
+        transform: scale(1.5) rotate(180deg);
+    }
+    100% {
+        transform: scale(0) rotate(360deg);
+    }
+}
+
+.lucky-coin-message {
+    position: fixed;
+    background-color: rgba(76, 175, 80, 0.9);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    z-index: 1001;
+    display: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+}
+
+.lucky-coin-message.show {
+    display: block;
+    animation: message-animation 1.5s forwards;
+}
+
+@keyframes message-animation {
+    0% {
+        opacity: 0;
+        transform: translate(0, -20px);
+    }
+    20% {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+    80% {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(0, -20px);
+    }
+}

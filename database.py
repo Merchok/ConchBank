@@ -27,13 +27,13 @@ def initialize_database(force_recreate=False):
             cursor.execute("DROP TABLE IF EXISTS user_stocks")
             cursor.execute("DROP TABLE IF EXISTS clicker")
             cursor.execute("DROP TABLE IF EXISTS stocks")
-            cursor.execute("DROP TABLE IF EXISTS users")
-        # Create users table
+            cursor.execute("DROP TABLE IF EXISTS users")        # Create users table
         cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             username TEXT PRIMARY KEY,
             password TEXT NOT NULL,
-            balance REAL NOT NULL
+            balance REAL NOT NULL,
+            lucky_coin_upgrade INTEGER DEFAULT 0
         )
         ''')
     
@@ -405,10 +405,9 @@ def create_user(username, password_hash):
         if cursor.fetchone():
             conn.close()
             return False
-        
-        # Insert user with starting balance
-        cursor.execute('INSERT INTO users VALUES (?, ?, ?)', 
-                    (username, password_hash, 15.0))
+          # Insert user with starting balance
+        cursor.execute('INSERT INTO users VALUES (?, ?, ?, ?)', 
+                    (username, password_hash, 15.0, 0))
         
         # Insert default stocks (0 quantity for each)
         stock_names = ['APPLE', 'TESLA', 'CONCHBANK']
@@ -428,6 +427,80 @@ def create_user(username, password_hash):
         return False
     finally:
         conn.close()
+
+def set_lucky_coin_upgrade(username):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT lucky_coin_upgrade FROM users WHERE username = ?",
+        (username,)
+    )
+
+    row = cursor.fetchone()
+
+    if row and row['lucky_coin_upgrade'] == 0:
+        cursor.execute(
+            "UPDATE users SET lucky_coin_upgrade = 1 WHERE username = ?",
+            (username,)
+        )
+        conn.commit()
+        result = True
+    else:
+        result = False
+    
+    conn.close()
+    return result
+
+def get_lucky_coin_last_time(username):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    user = get_user(username)
+
+    now = time.time()
+    last_time = 0
+
+    cursor.execute(
+        "SELECT lucky_coin_last_time FROM users WHERE username = ?",
+            (username,)
+    )
+    row = cursor.fetchone()
+    conn.close()
+
+    if row and row[0]:
+        return int(row[0])
+    else:
+        return 0
+    
+def Lucky_coin_time(username, timestamp):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    user = get_user(username)
+    
+    cursor.execute(
+        "UPDATE users SET lucky_coin_last_time = ? WHERE username = ?",
+        (timestamp, username)
+    )
+
+    conn.commit()
+    conn.close()
+
+def has_lucky_coin_upgrade(username):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    user = get_user(username)
+
+    cursor.execute(
+        "SELECT lucky_coin_upgrade FROM users WHERE username = ?",
+        (username,)
+    )
+
+    row = cursor.fetchone()
+    conn.close()
+    return row and row[0] == 1
 
 # Run initialization when the module is imported
 if __name__ == "__main__":

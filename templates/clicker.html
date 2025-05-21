@@ -5,10 +5,10 @@
     <meta charset="utf-8">
     <meta name="keywords" content="Conch Combat, {{ username }}">
     <meta name="description" content="">
-    <title>Conch Combat - Clicker Game</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='nicepage.css') }}" media="screen">
+    <title>Conch Combat - Clicker Game</title>    <link rel="stylesheet" href="{{ url_for('static', filename='nicepage.css') }}" media="screen">
     <link rel="stylesheet" href="{{ url_for('static', filename='clicker.css') }}" media="screen">
     <link rel="stylesheet" href="{{ url_for('static', filename='button-fix.css') }}" media="screen">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lucky-coin.css') }}" media="screen">
     <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}" defer=""></script>
     <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='nicepage.js') }}" defer=""></script>
     <meta name="generator" content="Nicepage 7.8.23, nicepage.com">
@@ -20,11 +20,14 @@
         "name": "",
         "logo": "images/conch-bank-high-resolution-logo-transparent.png"
     }</script>
-    <meta name="theme-color" content="#478ac9">
-    <meta property="og:title" content="Conch Combat">
+    <meta name="theme-color" content="#478ac9">    <meta property="og:title" content="Conch Combat">
     <meta property="og:type" content="website">
 </head>
 <body class="u-body u-xl-mode" data-lang="en">
+    <!-- Lucky Coin Element -->
+    <img id="luckyCoin" class="lucky-coin" src="{{ url_for('static', filename='images/coin_image.png') }}" alt="Lucky Coin!">
+    <div id="luckyCoinMessage" class="lucky-coin-message">+500 coins!</div>
+    
     <header class="u-border-2 u-border-grey-75 u-border-no-left u-clearfix u-header u-header" id="header">
         <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-sheet-1">
             <a href="{{ url_for('home', username=username) }}" class="u-image u-logo u-image-1" data-image-width="2000" data-image-height="1027">
@@ -57,6 +60,14 @@
                                 <p class="u-upgrade-price">Cost: 2000 coins</p>
                             </div>
                             <button id="powerUpgrade" class="u-btn u-btn-upgrade">Upgrade</button>
+                        </div>
+                        <div class="u-upgrade-item">
+                            <div class="u-upgrade-info">
+                                <p class="u-upgrade-title">Lucky Coin</p>
+                                <p class="u-upgrade-desc">Unlock the Lucky Coin that gives 500 coins once a minute!</p>
+                                <p class="u-upgrade-price">Cost: 500 coins</p>
+                            </div>
+                            <button id="luckyCoinUpgrade" class="u-btn u-btn-upgrade">Upgrade</button>
                         </div>
                         <div id="upgradeMessage" class="u-upgrade-message"></div>
                     </div>
@@ -97,8 +108,15 @@
             const coinCounter = document.getElementById('coinCounter');
             const clickPower = document.getElementById('clickPower');
             const powerUpgradeBtn = document.getElementById('powerUpgrade');
+            const luckyCoinUpgradeBtn = document.getElementById('luckyCoinUpgrade');
             const upgradeMessage = document.getElementById('upgradeMessage');
+            const luckyCoin = document.getElementById('luckyCoin');
+            const luckyCoinMessage = document.getElementById('luckyCoinMessage');
             const username = '{{ username }}';
+            
+            let hasLuckyCoinUpgrade = false;
+            let luckyCoinActive = false;
+            let luckyCoinTimer = null;
             
             // Function to refresh game data
             function refreshGameData() {
@@ -108,20 +126,277 @@
                         coinCounter.textContent = data.coins;
                         clickPower.textContent = data.click_power;
                         
-                        // Update upgrade button status
-                        if (parseInt(data.coins) >= 2000) {
-                            powerUpgradeBtn.classList.remove('u-btn-disabled');
-                            powerUpgradeBtn.disabled = false;
-                        } else {
-                            powerUpgradeBtn.classList.add('u-btn-disabled');
-                            powerUpgradeBtn.disabled = true;
-                        }
+                        // Update upgrade buttons status
+                        updateUpgradeButtons(parseInt(data.coins));
+                        
+                        // Check if user already has the lucky coin upgrade
+                        checkLuckyCoinUpgrade();
                     })
                     .catch(error => console.error('Error loading game data:', error));
             }
             
-            // Load initial game data
+            // Function to update upgrade buttons status
+            function updateUpgradeButtons(coins) {
+                // Power upgrade button
+                if (coins >= 2000) {
+                    powerUpgradeBtn.classList.remove('u-btn-disabled');
+                    powerUpgradeBtn.disabled = false;
+                } else {
+                    powerUpgradeBtn.classList.add('u-btn-disabled');
+                    powerUpgradeBtn.disabled = true;
+                }
+                
+                // Lucky coin upgrade button (only if not already purchased)
+                if (!hasLuckyCoinUpgrade) {
+                    if (coins >= 500) {
+                        luckyCoinUpgradeBtn.classList.remove('u-btn-disabled');
+                        luckyCoinUpgradeBtn.disabled = false;
+                    } else {
+                        luckyCoinUpgradeBtn.classList.add('u-btn-disabled');
+                        luckyCoinUpgradeBtn.disabled = true;
+                    }
+                }
+            }
+              // Check if user has Lucky Coin upgrade
+            function checkLuckyCoinUpgrade() {
+                // Make a test request to see if user has the upgrade
+                fetch(`/lucky_coin/${username}`, {
+                    method: 'GET'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // If we don't get a "There is no upgrade" error, user has the upgrade
+                    if (!data.error || data.error !== "There is no upgrade") {
+                        hasLuckyCoinUpgrade = true;
+                        luckyCoinUpgradeBtn.textContent = "Purchased";
+                        luckyCoinUpgradeBtn.disabled = true;
+                        luckyCoinUpgradeBtn.classList.add('u-btn-disabled');
+                        
+                        // Start checking for lucky coin availability
+                        startLuckyCoinTimer();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking lucky coin upgrade:', error);
+                });
+            }            // Start timer to check for lucky coin
+            function startLuckyCoinTimer() {
+                if (luckyCoinTimer) clearInterval(luckyCoinTimer);
+                
+                // Check immediately
+                checkLuckyCoinAvailability();
+                
+                // Then check every 2 seconds
+                luckyCoinTimer = setInterval(checkLuckyCoinAvailability, 2000);
+                
+                // Log that we started checking
+                console.log('Started checking for lucky coin availability');
+            }            // Check if lucky coin is available
+            function checkLuckyCoinAvailability() {
+                if (!hasLuckyCoinUpgrade || luckyCoinActive) return;
+                
+                console.log('Checking for lucky coin availability...');
+                
+                fetch(`/lucky_coin/${username}`, {
+                    method: 'GET'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Lucky coin check response:', data);
+                    
+                    // If we get available=true, show the coin
+                    if (data.available === true) {
+                        console.log('Lucky coin is available! Showing now...');
+                        showLuckyCoin();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking lucky coin availability:', error);
+                });
+            }// Show the lucky coin at a random position
+            function showLuckyCoin() {
+                if (luckyCoinActive) return;
+                
+                luckyCoinActive = true;
+                
+                // Position the coin at a random horizontal position
+                const maxWidth = window.innerWidth - 80; // Account for coin width
+                const randomX = Math.floor(Math.random() * maxWidth);
+                
+                // Get current scroll position to make the coin visible in viewport
+                const scrollTop = window.scrollY || document.documentElement.scrollTop;
+                
+                // Set the CSS variables for positioning
+                luckyCoin.style.setProperty('--start-x', `${randomX}px`);
+                luckyCoin.style.setProperty('--viewport-start', `${scrollTop}px`);
+                
+                // Start position
+                luckyCoin.style.top = `${scrollTop - 80}px`; // Start just above the current viewport
+                luckyCoin.classList.add('active');
+                
+                // Add a scroll listener to ensure the coin stays visible if user scrolls
+                const scrollHandler = () => {
+                    if (!luckyCoinActive) {
+                        window.removeEventListener('scroll', scrollHandler);
+                        return;
+                    }
+                    
+                    // If animation is paused (being clicked), don't adjust position
+                    if (luckyCoin.style.animationPlayState === 'paused') return;
+                    
+                    // Get new scroll position
+                    const newScrollTop = window.scrollY || document.documentElement.scrollTop;
+                    
+                    // Update viewport start position
+                    luckyCoin.style.setProperty('--viewport-start', `${newScrollTop}px`);
+                };
+                
+                window.addEventListener('scroll', scrollHandler);
+                
+                // Hide the coin after animation ends if not clicked
+                setTimeout(() => {
+                    if (luckyCoinActive) {
+                        hideLuckyCoin();
+                        window.removeEventListener('scroll', scrollHandler);
+                    }
+                }, 5000); // Coin animation lasts 5 seconds
+            }            // Hide the lucky coin
+            function hideLuckyCoin() {
+                luckyCoin.classList.remove('active');
+                luckyCoin.classList.remove('lucky-coin-click');
+                luckyCoin.style.animationPlayState = ''; // Reset animation state
+                luckyCoinActive = false;
+                
+                // Reset coin CSS variables and position for next appearance
+                setTimeout(() => {
+                    if (!luckyCoinActive) {
+                        luckyCoin.style.top = '-80px';
+                        luckyCoin.style.left = '0';
+                        luckyCoin.style.removeProperty('--viewport-start');
+                    }
+                }, 100);
+            }
+              // Show success message
+            function showSuccessMessage() {
+                // Calculate position if not already set
+                if (!luckyCoinMessage.style.top) {
+                    const coinRect = luckyCoin.getBoundingClientRect();
+                    luckyCoinMessage.style.top = `${coinRect.top}px`;
+                    luckyCoinMessage.style.left = `${coinRect.left + 40}px`;
+                }
+                
+                luckyCoinMessage.classList.add('show');
+                setTimeout(() => {
+                    luckyCoinMessage.classList.remove('show');
+                    // Reset position
+                    luckyCoinMessage.style.top = '';
+                    luckyCoinMessage.style.left = '';
+                }, 1500);
+            }
+              // Load initial game data
             refreshGameData();
+            
+            // Log to console for debugging
+            console.log('Game initialized. Username:', username);
+            
+            // Set up page visibility change to recheck if the user returns to the page
+            document.addEventListener('visibilitychange', function() {
+                if (document.visibilityState === 'visible' && hasLuckyCoinUpgrade) {
+                    console.log('Page is now visible - checking for lucky coin');
+                    checkLuckyCoinAvailability();
+                }
+            });// Set up lucky coin click handler
+            luckyCoin.addEventListener('click', function() {
+                if (!luckyCoinActive) return;
+                
+                // Calculate position for the message to appear near the coin
+                const coinRect = luckyCoin.getBoundingClientRect();
+                luckyCoinMessage.style.top = `${coinRect.top}px`;
+                luckyCoinMessage.style.left = `${coinRect.left + 40}px`;
+                
+                // Stop the falling immediately
+                luckyCoin.style.animationPlayState = 'paused';
+                
+                // Add animation class for click effect
+                luckyCoin.classList.add('lucky-coin-click');
+                
+                // Call the lucky coin API
+                fetch(`/lucky_coin/${username}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Show the success message
+                        showSuccessMessage();
+                        
+                        // Update the coin count
+                        coinCounter.textContent = data.coins;
+                        
+                        // Update upgrade buttons status
+                        updateUpgradeButtons(parseInt(data.coins));
+                    } else {
+                        console.error('Lucky coin error:', data.error);
+                    }
+                })
+                .catch(error => console.error('Error processing lucky coin click:', error));
+                
+                // Reset the coin
+                setTimeout(() => {
+                    luckyCoin.classList.remove('lucky-coin-click');
+                    hideLuckyCoin();
+                }, 500);
+            });
+            
+            // Set up lucky coin upgrade button
+            luckyCoinUpgradeBtn.addEventListener('click', function() {
+                fetch(`/buy_coin_event/${username}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        upgradeMessage.textContent = data.error;
+                        upgradeMessage.classList.add('u-upgrade-error');
+                        setTimeout(() => {
+                            upgradeMessage.textContent = '';
+                            upgradeMessage.classList.remove('u-upgrade-error');
+                        }, 3000);
+                    } else {
+                        upgradeMessage.textContent = 'Lucky Coin Upgrade Purchased!';
+                        upgradeMessage.classList.add('u-upgrade-success');
+                        setTimeout(() => {
+                            upgradeMessage.textContent = '';
+                            upgradeMessage.classList.remove('u-upgrade-success');
+                        }, 3000);
+                        
+                        hasLuckyCoinUpgrade = true;
+                        luckyCoinUpgradeBtn.textContent = "Purchased";
+                        luckyCoinUpgradeBtn.disabled = true;
+                        luckyCoinUpgradeBtn.classList.add('u-btn-disabled');
+                        
+                        coinCounter.textContent = data.coins;
+                        
+                        // Start checking for lucky coin availability
+                        startLuckyCoinTimer();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error purchasing lucky coin upgrade:', error);
+                    upgradeMessage.textContent = 'Purchase failed. Try again.';
+                    upgradeMessage.classList.add('u-upgrade-error');
+                    setTimeout(() => {
+                        upgradeMessage.textContent = '';
+                        upgradeMessage.classList.remove('u-upgrade-error');
+                    }, 3000);
+                });
+            });
             
             // Set up upgrade button
             powerUpgradeBtn.addEventListener('click', function() {
@@ -182,11 +457,9 @@
                 .then(response => response.json())
                 .then(data => {
                     coinCounter.textContent = data.coins;
-                    // Update upgrade button status
-                    if (parseInt(data.coins) >= 2000) {
-                        powerUpgradeBtn.classList.remove('u-btn-disabled');
-                        powerUpgradeBtn.disabled = false;
-                    }
+                    
+                    // Update upgrade buttons status
+                    updateUpgradeButtons(parseInt(data.coins));
                 })
                 .catch(error => console.error('Error processing click:', error));
             });
