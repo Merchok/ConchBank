@@ -57,6 +57,14 @@ The web application will start on http://localhost:5000 by default.
 
 ---
 
+## 🤝 Looking for Contributors
+
+This is a fun learning project, and I'd love to have others join in!  
+If you want to contribute, check the open issues or message me directly.  
+All levels are welcome.
+
+---
+
 ## 🔄 Legacy Support
 
 This project has evolved from a terminal-based application (`Bank.py`) to a full web application. If you have existing user data in `Users.json`, you can migrate it to the new SQLite database using:
