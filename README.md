@@ -63,6 +63,9 @@ This is a fun learning project, and I'd love to have others join in!
 If you want to contribute, check the open issues or message me directly.  
 All levels are welcome.
 
+You can reach me on Discord: [Your Discord Username] (consider adding your username or a server invite link here)
+
+
 ---
 
 ## 🔄 Legacy Support
