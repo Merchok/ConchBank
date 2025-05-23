@@ -1,28 +1,69 @@
 
-# 🐚 Conch Bank
+# 🐚 ConchBank
 
-> Terminal-based toy bank system written in Python. Made in the process of learning to code :D
+> A full-featured banking system with web interface built in Python/Flask. Made in the process of learning to code :D
 
 ---
 
 ## ✨ Features
 
-- 🔐 Registration & Login (with password hashing)
-- 💸 User-to-user transactions
-- 📜 Transaction history (sent and received)
-- 💾 Persistent user data stored in JSON
-- 🧮 Balance tracking and check deposit
-- 🎨 Terminal UI (with clear, formatting, and banners)
+- 🔐 User Authentication
+  - Account registration and login with password hashing
+  - Secure session management
+
+- 💰 Banking Functions
+  - 💸 User-to-user money transfers
+  - 📜 Transaction history viewing (sent and received)
+  - 💳 Funds deposit system
+  - 💹 Balance tracking
+
+- 📈 Stock Trading
+  - Buy and sell stocks (APPLE, TESLA, CONCHBANK)
+  - Dynamic stock prices that update every minute
+  - Personal portfolio management
+
+- 🎮 Conch Combat (Clicker Game)
+  - Earn coins by clicking
+  - Upgrade your click power to earn more coins
+  - Special "Lucky Coin" feature that provides bonus coins
+
+- 🗄️ Data Storage
+  - SQLite database for persistent data storage
+  - Migration tools for legacy JSON data
+
+- 🌐 Modern Web Interface
+  - Responsive design that works on various devices
+  - Clean UI with intuitive navigation
 
 ---
 
 ## 🚀 How to Run
 
 ```bash
-python Bank.py
+python app.py
 ```
 
-Make sure you have `Users.json` in the same directory.
+The web application will start on http://localhost:5000 by default.
+
+---
+
+## 🧰 Project Structure
+
+- `app.py` - Main Flask application with all routes
+- `database.py` - Database management and operations
+- `conchbank.db` - SQLite database file
+- `templates/` - HTML templates for web pages
+- `static/` - CSS, JavaScript, and image files
+
+---
+
+## 🔄 Legacy Support
+
+This project has evolved from a terminal-based application (`Bank.py`) to a full web application. If you have existing user data in `Users.json`, you can migrate it to the new SQLite database using:
+
+```bash
+python reset_and_migrate.py
+```
 
 ---
 
