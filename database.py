@@ -502,6 +502,31 @@ def has_lucky_coin_upgrade(username):
     conn.close()
     return row and row[0] == 1
 
+# leaderboard
+def get_leaderboard(limit=10):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        SELECT username, coins
+        FROM clicker
+        ORDER BY coins DESC
+        LIMIT ?
+        """, (limit,))
+    
+    results = cursor.fetchall()
+
+    leaders = []
+    for row in results:
+        leaders.append({
+            'username': row['username'],
+            'coins': row['coins']
+        })
+    
+    conn.close()
+    return leaders
+
 # Run initialization when the module is imported
 if __name__ == "__main__":
     initialize_database()

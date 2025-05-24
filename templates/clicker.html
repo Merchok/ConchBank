@@ -76,16 +76,28 @@
                 <div class="u-click-area">
                     <div class="u-coin-container">
                         <img id="coinImage" src="{{ url_for('static', filename='images/coin_image.png') }}" alt="Click the coin!">
-                    </div>
-                    <div class="u-click-instructions">
+                    </div>                    <div class="u-click-instructions">
                         <p>Click the coin as fast as you can to earn more coins!</p>
                     </div>
                 </div>
                 
                 <div class="u-leaderboards-card">
-                    <h2 class="u-heading-1">Game Info</h2>
-                    <div class="u-game-info">
-                        <p>Conch Combat is ConchBank's official clicker game! Click the coin to earn more currency. Compete with other players and upgrade your clicking power!</p>
+                    <h2 class="u-heading-1 u-leaderboard-title">Leaderboard </h2>
+                    <div class="u-leaderboard">
+                        <table class="u-leaderboard-table">
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Coins</th>
+                            </tr>
+                            {% for player in leaderboard %}
+                            <tr class="{% if loop.index == 1 %}u-rank-gold{% elif loop.index == 2 %}u-rank-silver{% elif loop.index == 3 %}u-rank-bronze{% endif %}">
+                                <td>#{{ loop.index }}</td>
+                                <td>{{ player.username }}</td>
+                                <td>{{ player.coins }}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
                     </div>
                     <div class="u-actions">
                         <a href="{{ url_for('home', username=username) }}" class="u-btn u-btn-back">⬅ Back to Home</a>

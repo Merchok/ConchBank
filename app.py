@@ -5,6 +5,8 @@ import random
 import database  # Модуль для работы с базой данных SQLite
 
 
+leaderboard_limit = 5
+
 app = Flask(__name__)
 
 # Initialize database
@@ -221,7 +223,17 @@ def clicker(username):
     if not user:
         return "User not found"
     
-    return render_template("clicker.html", username=username)
+    clicker_data = database.get_clicker_data(username)
+
+    leaderboard_data = database.get_leaderboard(leaderboard_limit)
+
+    return render_template(
+        "clicker.html", 
+        username=username,
+        coins=clicker_data["coins"],
+        click_power=clicker_data["click_power"],
+        leaderboard=leaderboard_data
+        )
 
 @app.route("/click/<username>", methods=["POST"])
 def click(username):
